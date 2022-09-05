@@ -1,56 +1,73 @@
 ﻿@using SpaceX.Models
-@model List<MissionReport> 
-   @* @model List<Launch> *@
+@model List<MissionReport>
+
 
 @{
-    ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Home Page";
 }
+<body style="background-color: #423e3e">
+	<div class="text-center">
+		<h1 style = "color: #bfbfbd"> SpaceX Launch History </h1>
+		<table class="table table-success table-striped">
+			<thead>
+				<tr>
+					<th scope="col"></th>
+					<th scope="col"> Rocket Badge </th>
+					<th scope="col"> Rocket Name </th>
+					<th scope="col"> Mission Time </th>
+					<th scope="col"> Status </th>
+					<th scope="col"> Details (if available) </th>
+					<th scope="col"> Payload Mass (in kg) </th>
+					<th scope="col"> Payload Rank </th>
+				</tr>
+			</thead>
+			<tbody>
+				@{
+					int i = 0;
+					foreach (MissionReport m in Model)
+					{
+						<tr>
+							<th scope="row"> @(i+1). </th>
+							<td>
+								<img src="@m.picUrl" alt="alt"
+							 	style="width: 80px; height: 80px;">
+							</td>
+							<td>
+								<p> @m.rocket </p>
+							</td>
+							<td>
 
-<div class="text-center"> 
-        <table>
-        <tr>
-        <td>
-        rocket name
-        </td>
-        <td>
-        mission time
-        </td>
-        <td>
-        successful
-        </td>
-        <td>
-        payload mass
-        </td>
-        </tr>
-    @{
-        foreach (MissionReport m in Model)
-        {   <tr>
+								<p> @m.dateTime</p>
+							</td>
+							<td>
+								@if (m.success == false)
+								{
+									<p> Launch Unsuccessful </p>
+								}
+								else if (m.success == true)
+								{
+									<p> Launch successful! </p>
+								}
+								else if (m.success == null)
+								{
+									<p> N/A </p>
+								}
 
-            <td>
-
-            <p> @m.rocket </p> 
-            </td>
-            <td>
-           <p> @m.dateTime</p>
-
-            </td>
-            <td>
-           <p> @m.success</p> 
-
-            </td>
-            <td>
-
-           <p> @m.payloadMass </p>
-            </td>
-            </tr>
-        }
-        //  foreach (Launch m in Model)
-        //{
-        //   < > @m.id </>
-        //   //<p> @m.payloadMass</p>
-        //   //<p> @m.payloads[0].mass_kg </p>
-
-        //}
-    }
-        </table>
-</div>
+							</td>
+							<td>
+								<p> @m.details </p>
+							</td>
+							<td>
+								<p> @m.payloadMass </p>
+							</td>
+							<td>
+								<p> @m.payloadRank </p>
+							</td>
+						</tr>
+						i++;
+					};
+				}
+			</tbody>
+		</table>
+	</div>
+</body>

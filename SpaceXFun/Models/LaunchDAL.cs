@@ -28,15 +28,11 @@ namespace SpaceX.Models
         //    HttpWebRequest request = WebRequest.CreateHttp(url);
         //    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
         //    StreamReader reader = new StreamReader(response.GetResponseStream());
-
         //    string JSON = reader.ReadToEnd();
-
         //    Launch result = JsonConvert.DeserializeObject<Launch>(JSON);
         //    return result;
 
         //}
-
-
 
     }
 }

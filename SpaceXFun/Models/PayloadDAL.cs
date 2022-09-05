@@ -21,33 +21,6 @@ namespace SpaceX.Models
             return result;
         }
 
-
-        //public List<Payload> GetPayloadsByLaunchId(string launchId) //adjust 
-        //{
-        //    //api URL 
-        //    //get all payloads because there's no API endpoint to pull a payload up by launch 
-        //    string url = $"https://api.spacexdata.com/v4/payloads/";
-
-        //    HttpWebRequest request = WebRequest.CreateHttp(url);
-        //    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-        //    StreamReader reader = new StreamReader(response.GetResponseStream());
-
-        //    string JSON = reader.ReadToEnd();
-
-        //    List<Payload> result = JsonConvert.DeserializeObject<List<Payload>>(JSON);
-
-        //    List<Payload> PleaseWork = new List<Payload>();
-
-        //    foreach (Payload p in result)
-        //    {
-        //        if (p.launch == launchId)
-        //        {
-        //            PleaseWork.Add(p);
-        //        }
-        //    }
-
-        //    return PleaseWork;
-        //}
         //public Payload GetPayloadById(string id)
         //{
         //    string url = $"https://api.spacexdata.com/v4/payloads/{id}";
@@ -63,7 +36,7 @@ namespace SpaceX.Models
 
         //}
 
-        //public double GetPayloadMass(string id)
+        //public double? GetPayloadMass(string id)
         //{
         //    string url = $"https://api.spacexdata.com/v4/payloads/{id}";
         //    HttpWebRequest request = WebRequest.CreateHttp(url);
@@ -77,7 +50,7 @@ namespace SpaceX.Models
 
         //    Payload result = JsonConvert.DeserializeObject<Payload>(JSON);
 
-        //    if (result.mass_kg > 0)
+        //    if (result.mass_kg != null)
         //    {
         //        return result.mass_kg;
         //    }
@@ -85,11 +58,7 @@ namespace SpaceX.Models
 
         //}
 
-
-
-
-
-
+        
     }
 }
 

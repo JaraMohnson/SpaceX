@@ -27,8 +27,10 @@ namespace SpaceX.Controllers
             );
 
             List<MissionReport> missions = BuildMissionReport(launches, payloads);
+
+            //missions.Reverse();
             return View(missions);
-            //return View(launches);
+
         }
 
         //return a list of MissionReports - give it a list of launches and dictionary of payloads 
@@ -43,31 +45,41 @@ namespace SpaceX.Controllers
                 mission.success = launch.success;
                 mission.dateTime = launch.static_fire_date_utc;
                 mission.rocket = launch.name;
-                //mission.picUrl = launch.links.patch.small;
+                mission.picUrl = launch.links.patch.small;
                 mission.launchId = launch.id;
-                mission.payloadMass = 0;
+                mission.details = launch.details;
                 missions.Add(mission);
 
                 //i really dislike this nested ForEach loop, I'm sorry. 
-                if (launch.payloads.Any())
-                {
-                    //we have to have this because payloads is an array unless.... there's LINQ...? no. idk. 
-                    foreach (string payloadId in launch.payloads)
-                    {
-                        Payload payloadToAdd = new Payload(); //using default gave me the same error 
-                        bool matchingPayloadFound = payloadsToMap.TryGetValue(payloadId, out payloadToAdd);
-                        //loop through payloads - utilize dictionary to TryGetValue (try to find) matching payload by payload Id. Add payloads to mission 
-                        //TryGetValue returns a bool, first value is what you feed into it to search, the "out" is 'where is this value going'. 
-                        if (matchingPayloadFound)
-                        {
-                            mission.payloads.Add(payloadToAdd);
-                            mission.payloadMass += payloadToAdd.mass_kg;
-                        }
 
+                //we have to have this because payloads is an array unless.... there's LINQ...? no. idk. nothing works. 
+                //for each element in the payloads string[] in each launch 
+                foreach (string payloadId in launch.payloads)
+                {
+                    Payload payloadToAdd = new Payload(); //using default gave me the same error 
+
+                    bool matchingPayloadFound = payloadsToMap.TryGetValue(payloadId, out payloadToAdd);
+                    
+                    if (matchingPayloadFound)
+                    {
+                        mission.payloads.Add(payloadToAdd);
+                        mission.payloadMass += payloadToAdd.mass_kg;
                     }
                 }
-                
             }
+
+            // this is getting out of hand lol
+            //making changes to missions, not listToOrder, so I guess I gotta make another copy to edit the properties of my missions
+            List<MissionReport> orderedList = missions.OrderByDescending(m => m.payloadMass).ToList();
+
+            foreach (MissionReport m in missions) 
+            {
+                if (m.payloadMass != null && m.payloadMass != 0)
+                {
+                    m.payloadRank = orderedList.IndexOf(m)+1.ToString(); 
+                }
+            }
+
             return missions;
         }
 
@@ -75,7 +87,6 @@ namespace SpaceX.Controllers
         {
             return View();
         }
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
