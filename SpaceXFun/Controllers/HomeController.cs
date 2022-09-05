@@ -28,12 +28,15 @@ namespace SpaceX.Controllers
 
             List<MissionReport> missions = BuildMissionReport(launches, payloads);
 
-            //missions.Reverse();
+            //putting this simple Reverse(); logic here so it doesn't get lost in the 
+            //  sauce in build mission report 
+            missions.Reverse();
             return View(missions);
 
         }
 
         //return a list of MissionReports - give it a list of launches and dictionary of payloads 
+        //what a beastly method - I want to break this up I think for separation of responsibilities 
         private List<MissionReport> BuildMissionReport(List<Launch> allLaunches, Dictionary<string, Payload> payloadsToMap)
         {
             List<MissionReport> missions = new List<MissionReport>();
@@ -43,7 +46,10 @@ namespace SpaceX.Controllers
                 MissionReport mission = new MissionReport();
 
                 mission.success = launch.success;
-                mission.dateTime = launch.static_fire_date_utc;
+                mission.dateTime = launch.date_utc;
+                mission.date = launch.date_utc.ToShortDateString();
+                mission.time = TimeZoneInfo.ConvertTimeFromUtc
+                    (launch.date_utc, TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time")).ToShortTimeString();  
                 mission.rocket = launch.name;
                 mission.picUrl = launch.links.patch.small;
                 mission.launchId = launch.id;
@@ -68,8 +74,9 @@ namespace SpaceX.Controllers
                 }
             }
 
-            // this is getting out of hand lol
-            //making changes to missions, not listToOrder, so I guess I gotta make another copy to edit the properties of my missions
+            // this is getting out of hand 
+            //making changes to missions, not listToOrder
+                //so I guess I gotta make another copy to edit the properties of my missions
             List<MissionReport> orderedList = missions.OrderByDescending(m => m.payloadMass).ToList();
 
             foreach (MissionReport m in missions) 

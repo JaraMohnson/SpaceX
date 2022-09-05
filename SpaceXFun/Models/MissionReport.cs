@@ -7,7 +7,11 @@
         public string rocket { get; set; }
         public bool? success { get; set; }
 
-        
+
+        //apparently these both have to be strings 
+        public string? date { get; set; }
+        public string? time { get; set; }  
+
         public List<Payload> payloads { get; set; } = new List<Payload>();
 
 
