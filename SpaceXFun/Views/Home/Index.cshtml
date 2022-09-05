@@ -1,0 +1,56 @@
+﻿@using SpaceX.Models
+@model List<MissionReport> 
+   @* @model List<Launch> *@
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center"> 
+        <table>
+        <tr>
+        <td>
+        rocket name
+        </td>
+        <td>
+        mission time
+        </td>
+        <td>
+        successful
+        </td>
+        <td>
+        payload mass
+        </td>
+        </tr>
+    @{
+        foreach (MissionReport m in Model)
+        {   <tr>
+
+            <td>
+
+            <p> @m.rocket </p> 
+            </td>
+            <td>
+           <p> @m.dateTime</p>
+
+            </td>
+            <td>
+           <p> @m.success</p> 
+
+            </td>
+            <td>
+
+           <p> @m.payloadMass </p>
+            </td>
+            </tr>
+        }
+        //  foreach (Launch m in Model)
+        //{
+        //   < > @m.id </>
+        //   //<p> @m.payloadMass</p>
+        //   //<p> @m.payloads[0].mass_kg </p>
+
+        //}
+    }
+        </table>
+</div>
