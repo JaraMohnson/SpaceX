@@ -35,6 +35,9 @@ namespace SpaceX.Controllers
 
         }
 
+
+
+
         //return a list of MissionReports - give it a list of launches and dictionary of payloads 
         //what a beastly method - I want to break this up I think for separation of responsibilities 
         private List<MissionReport> BuildMissionReport(List<Launch> allLaunches, Dictionary<string, Payload> payloadsToMap)
@@ -74,7 +77,6 @@ namespace SpaceX.Controllers
                 }
             }
 
-            // this is getting out of hand 
             //making changes to missions, not listToOrder
                 //so I guess I gotta make another copy to edit the properties of my missions
             List<MissionReport> orderedList = missions.OrderByDescending(m => m.payloadMass).ToList();
